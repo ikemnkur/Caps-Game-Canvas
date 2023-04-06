@@ -1,0 +1,137 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <style id="compiled-css" type="text/css">
+        body {
+            /*from   w w w .ja v  a 2  s.  co  m*/
+            background-color: ivory;
+        }
+
+        #canvas {
+            border: 1px solid red;
+        }
+    </style>
+    <script type="text/javascript">
+        // $(window).load(function () {
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        // var $canvas = $("#canvas");
+        // var canvasOffset = $canvas.offset();
+        // var offsetX = canvasOffset.left;
+        // var offsetY = canvasOffset.top;
+        // var scrollX = $canvas.scrollLeft();
+        // var scrollY = $canvas.scrollTop();
+        var rects = []; var caps = [];
+
+        rects.push({
+            x: 10,
+            y: 10,
+            width: 30,
+            height: 15,
+            fillcolor: "red",
+            isFilled: false
+        });
+
+        rects.push({
+            x: 10,
+            y: 50,
+            width: 50,
+            height: 30,
+            fillcolor: "blue",
+            isFilled: false
+        });
+
+        rects.push({
+            x: 100,
+            y: 100,
+            width: 50,
+            height: 50,
+            fillcolor: "blue",
+            isFilled: false
+        });
+
+        // caps.push({
+        //     x: 150,
+        //     y: 150,
+        //     radius: 30,
+        //     fillcolor: "blue",
+        //     isFilled: false
+        // });
+
+        // for (var j = 0; j < 3; i++) {
+        //     for (var i = 0; i < 3; i++) {
+        //         rects.push({
+        //             x: 18 * i,
+        //             y: 18 * j,
+        //             width: 16,
+        //             height: 16,
+        //             fillcolor: "blue",
+        //             isFilled: false
+        //         });
+        //     }
+        // }
+
+        draw();
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (var i = 0; i < rects.length; i++) {
+                var rect = rects[i];
+                if (rect.isFilled) {
+                    ctx.fillStyle = rect.fillcolor;
+                    ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+                }
+                ctx.strokeStyle = "black";
+                ctx.strokeRect(rect.x, rect.y, rect.width, rect.height);
+            }
+
+            // for (var i = 0; i < caps.length; i++) {
+            //     var cap = caps[i];
+            //     if (cap.isFilled) {
+            //         ctx.fillStyle = cap.fillcolor;
+            //         ctx.arc(cap.x, cap.y, cap.radius, 0, 2 * Math.PI, false);
+            //         ctx.drawCircle(ctx, cap.x, cap.y, cap.radius, 'black', 'red', 2)
+            //         // ctx.fillCircle(cap.x, cap.y, cap.width, cap.height);
+            //     }
+            //     ctx.strokeStyle = "black";
+            //     ctx.strokecap(cap.x, cap.y, cap.width, cap.height);
+            // }
+        }
+
+        function hit(rect, x, y) {
+            return (x >= rect.x && x <= rect.x + rect.width && y >= rect.y && y <= rect.y + rect.height);
+        }
+
+        function handleMouseDown(e) {
+            e.preventDefault();
+            mouseX = parseInt(e.clientX - offsetX);
+            mouseY = parseInt(e.clientY - offsetY);
+            for (var i = 0; i < rects.length; i++) {
+                var rect = rects[i];
+                if (hit(rect, mouseX, mouseY)) {
+                    rect.isFilled = !rect.isFilled;
+                }
+            }
+            draw();
+        }
+
+        var canvas = document.getElementById("canvas");
+        // $("#canvas").mousedown(function (e) {
+        canvas.addEventListener("mousedown", function (e) {
+            handleMouseDown(e);
+        })
+            // });
+        // });
+
+    </script>
+</head>
+
+<body>
+    <h4>Click on a "menu" rect to toggle.</h4>
+    <canvas id="canvas" width="300" height="300"></canvas>
+</body>
+
+</html>
